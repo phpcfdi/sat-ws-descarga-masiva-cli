@@ -11,14 +11,14 @@ use PhpCfdi\SatWsDescargaMasiva\CLI\Tests\Helpers\TemporaryFile;
 use PhpCfdi\SatWsDescargaMasiva\CLI\Tests\TestCase;
 use PhpCfdi\SatWsDescargaMasiva\Services\Query\QueryResult;
 use PhpCfdi\SatWsDescargaMasiva\Shared\StatusCode;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\TestWith;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class QueryCommandTest extends TestCase
 {
     /** @return array<string, string> */
-    private function buildValidOptions(): array
+    private function buildValidOptions(int $year): array
     {
         return [
             '--efirma' => $this->filePath('fake-fiel/EKU9003173C9-efirma.json'),
@@ -27,8 +27,8 @@ class QueryCommandTest extends TestCase
             '--password' => trim($this->fileContents('fake-fiel/EKU9003173C9-password.txt')),
             '--token' => (new TemporaryFile(remove: false))->getPath(),
             '--servicio' => 'cfdi',
-            '--desde' => '2020-01-01 00:00:00',
-            '--hasta' => '2020-01-31 23:59:59',
+            '--desde' => "$year-01-01 00:00:00",
+            '--hasta' => "$year-01-31 23:59:59",
             '--tipo' => 'emitidos',
             '--rfc' => 'AAAA010101AAA',
             '--paquete' => 'metadata',
@@ -56,9 +56,10 @@ class QueryCommandTest extends TestCase
     #[Group('integration')]
     public function testCommandExecutionWithValidParametersButFakeFiel(): void
     {
+        $year = idate('Y') - 2;
         $command = new QueryCommand();
         $tester = new CommandTester($command);
-        $validOptions = $this->buildValidOptions();
+        $validOptions = $this->buildValidOptions($year);
 
         $executionException = $this->captureException(
             fn (): int => $tester->execute($validOptions),
@@ -69,8 +70,8 @@ class QueryCommandTest extends TestCase
               Servicio: Cfdi
               Paquete: Metadata
               RFC: EKU9003173C9
-              Desde: 2020-01-01 00:00:00
-              Hasta: 2020-01-31 23:59:59
+              Desde: $year-01-01 00:00:00
+              Hasta: $year-01-31 23:59:59
               Tipo: Emitidos
               RFC de/para: AAAA010101AAA
               Documentos: Nómina
@@ -155,22 +156,31 @@ class QueryCommandTest extends TestCase
         $command->processResult($queryResult);
     }
 
-    #[TestWith(['efirma', 'foo bar'])]
-    #[TestWith(['certificado', 'foo bar'])]
-    #[TestWith(['llave', 'foo bar', 'certificado'])]
-    #[TestWith(['servicio', 'foo'])]
-    #[TestWith(['desde', 'foo bar'])]
-    #[TestWith(['desde', '2020-02-01 00:00:00', 'hasta'])]
-    #[TestWith(['hasta', 'foo bar'])]
-    #[TestWith(['hasta', '2019-12-31 23:59:59'])]
-    #[TestWith(['tipo', 'foo bar'])]
-    #[TestWith(['rfc', 'not-rfc'])]
-    #[TestWith(['paquete', 'foo bar'])]
-    #[TestWith(['estado', 'foo bar'])]
-    #[TestWith(['documento', 'foo bar'])]
-    #[TestWith(['complemento', 'foo bar'])]
-    #[TestWith(['tercero', 'not-rfc'])]
-    #[TestWith(['uuid', 'not-uuid'])]
+    /** @return array<string, array{string, string}|array{string, string, string}> */
+    public static function providerOptionWithInvalidValue(): array
+    {
+        $year = idate('Y');
+        return [
+            'efirma' => ['efirma', 'foo bar'],
+            'certificado' => ['certificado', 'foo bar'],
+            'llave' => ['llave', 'foo bar', 'certificado'],
+            'servicio' => ['servicio', 'foo'],
+            'desde' => ['desde', 'foo bar'],
+            'desde higher than hasta' => ['desde', sprintf('%s-02-01 00:00:00', $year + 1), 'hasta'],
+            'hasta' => ['hasta', 'foo bar'],
+            'hasta lower than desde' => ['hasta', sprintf('%s-12-31 23:59:59', $year - 5)],
+            'tipo' => ['tipo', 'foo bar'],
+            'rfc' => ['rfc', 'not-rfc'],
+            'paquete' => ['paquete', 'foo bar'],
+            'estado' => ['estado', 'foo bar'],
+            'documento' => ['documento', 'foo bar'],
+            'complemento' => ['complemento', 'foo bar'],
+            'tercero' => ['tercero', 'not-rfc'],
+            'uuid' => ['uuid', 'not-uuid'],
+        ];
+    }
+
+    #[DataProvider('providerOptionWithInvalidValue')]
     public function testOptionWithInvalidValue(string $option, string $invalidValue, string $guilty = ''): void
     {
         $guilty = $guilty ?: $option;
@@ -180,7 +190,7 @@ class QueryCommandTest extends TestCase
         /** @var InputException|null $expectedException */
         $expectedException = null;
         try {
-            $tester->execute(["--$option" => $invalidValue] + $this->buildValidOptions());
+            $tester->execute(["--$option" => $invalidValue] + $this->buildValidOptions(idate('Y') - 1));
         } catch (InputException $catchedException) {
             $expectedException = $catchedException;
         }
