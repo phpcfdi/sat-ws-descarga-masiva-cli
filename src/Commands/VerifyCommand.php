@@ -14,15 +14,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class VerifyCommand extends WithFielAbstractCommand
 {
-    public static function getDefaultName(): string
-    {
-        return 'ws:verifica';
-    }
-
     protected function configure(): void
     {
         parent::configure();
 
+        $this->setName('ws:verifica');
         $this->setDescription('Verifica el estado de una solicitud');
         // TODO: poner una descripción más larga
         $this->setHelp('Verifica el estado de una solicitud');

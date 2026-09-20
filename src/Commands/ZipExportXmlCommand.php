@@ -15,15 +15,11 @@ use Throwable;
 
 class ZipExportXmlCommand extends Command
 {
-    public static function getDefaultName(): string
-    {
-        return 'zip:xml';
-    }
-
     protected function configure(): void
     {
         parent::configure();
 
+        $this->setName('zip:xml');
         $this->setDescription('Exporta un archivo ZIP con archivos XML a una carpeta');
         // TODO: poner una descripción más larga
         $this->setHelp('Exporta un archivo ZIP con archivos XML a una carpeta');

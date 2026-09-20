@@ -14,15 +14,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class ListComplementsCommand extends Command
 {
-    public static function getDefaultName(): string
-    {
-        return 'info:complementos';
-    }
-
     protected function configure(): void
     {
         parent::configure();
 
+        $this->setName('info:complementos');
         $this->setDescription('Muestra el listado de complementos de CFDI o Retenciones');
 
         $this->addOption('servicio', '', InputOption::VALUE_REQUIRED, 'Cfdi o Retenciones', 'Cfdi');

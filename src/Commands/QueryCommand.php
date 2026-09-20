@@ -20,15 +20,11 @@ class QueryCommand extends WithFielAbstractCommand
 {
     use LabelMethodsTrait;
 
-    public static function getDefaultName(): string
-    {
-        return 'ws:consulta';
-    }
-
     protected function configure(): void
     {
         parent::configure();
 
+        $this->setName('ws:consulta');
         $this->setDescription('Genera una consulta y devuelve el número de solicitud');
         // TODO: poner una descripción más larga
         $this->setHelp('Genera una consulta y devuelve el número de solicitud');
