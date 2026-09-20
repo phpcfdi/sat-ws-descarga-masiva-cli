@@ -26,7 +26,7 @@ Esta librería contiene un cliente (consumidor) del servicio del SAT de
 
 ## Requerimientos
 
-Esta herramienta usa **PHP versión 8.2** o superior con las extensiones `xml`, `openssl`, `zip`, `curl`, `intl` y `bcmath`.
+Esta herramienta usa **PHP versión 8.4** o superior con las extensiones `xml`, `openssl`, `zip`, `curl`, `intl` y `bcmath`.
 
 ## Instalación
 
