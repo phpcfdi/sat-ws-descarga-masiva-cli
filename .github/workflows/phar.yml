@@ -23,7 +23,6 @@ jobs:
           php-version: '8.2' # use lower compatible version
           coverage: none
           tools: composer:v2, box
-          extensions: bcmath
         env:
           fail-fast: true
       - name: Get composer cache directory

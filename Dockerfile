@@ -5,7 +5,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # install dependencies for php modules
 RUN apk add icu-dev libzip-dev git && \
-    docker-php-ext-install zip intl bcmath
+    docker-php-ext-install zip intl
 
 # build project
 RUN cd /opt/source && \
