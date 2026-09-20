@@ -34,6 +34,10 @@ jobs:
           path: "${{ steps.composer-cache.outputs.dir }}"
           key: "${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}"
           restore-keys: "${{ runner.os }}-composer-"
+      - name: Install bcmath on nektos/act
+        # shivammathur/setup-php fails to compile bcmath extension
+        if: github.actor == 'nektos/act'
+        run: composer require phpseclib/bcmath_compat --no-install
       - name: Install project dependencies
         run: composer upgrade --no-interaction --no-progress --prefer-dist --no-dev
       - name: Compile PHAR
