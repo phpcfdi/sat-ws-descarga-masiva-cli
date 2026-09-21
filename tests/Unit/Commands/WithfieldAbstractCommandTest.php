@@ -21,7 +21,7 @@ final class WithfieldAbstractCommandTest extends TestCase
         $command = new class () extends WithFielAbstractCommand {
         };
         $input = new ArrayInput($inputParameters, $command->getDefinition());
-        $output = $this->createMock(OutputInterface::class);
+        $output = $this->createStub(OutputInterface::class);
         return new ServiceBuilder($input, $output);
     }
 
