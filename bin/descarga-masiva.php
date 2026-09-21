@@ -16,12 +16,14 @@ $application = new Application('descarga-masiva', '@box_git_version@');
 $application->setCatchExceptions(true);
 
 // ... register commands
-$application->add(new QueryCommand());
-$application->add(new VerifyCommand());
-$application->add(new DownloadCommand());
-$application->add(new ListComplementsCommand());
-$application->add(new ZipExportMetadataCommand());
-$application->add(new ZipExportXmlCommand());
+$application->addCommands([
+    new QueryCommand(),
+    new VerifyCommand(),
+    new DownloadCommand(),
+    new ListComplementsCommand(),
+    new ZipExportMetadataCommand(),
+    new ZipExportXmlCommand(),
+]);
 
 /** @noinspection PhpUnhandledExceptionInspection */
 exit($application->run());

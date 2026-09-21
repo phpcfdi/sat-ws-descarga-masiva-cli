@@ -21,8 +21,8 @@ final class ServiceWithStorageTokenTest extends TestCase
         $token = new Token(DateTime::create(time() - 10), DateTime::create(time()), 'x-token');
         $storageToken->store($token);
 
-        $requestBuilder = $this->createMock(RequestBuilderInterface::class);
-        $webClient = $this->createMock(WebClientInterface::class);
+        $requestBuilder = $this->createStub(RequestBuilderInterface::class);
+        $webClient = $this->createStub(WebClientInterface::class);
         $serviceEndpoints = ServiceEndpoints::cfdi();
         $service = new ServiceWithStorageToken($requestBuilder, $webClient, $storageToken, $serviceEndpoints);
 
@@ -35,8 +35,8 @@ final class ServiceWithStorageTokenTest extends TestCase
         $token = new Token(DateTime::create(time() - 10), DateTime::create(time()), 'x-token');
         $storageToken->store($token);
 
-        $requestBuilder = $this->createMock(RequestBuilderInterface::class);
-        $webClient = $this->createMock(WebClientInterface::class);
+        $requestBuilder = $this->createStub(RequestBuilderInterface::class);
+        $webClient = $this->createStub(WebClientInterface::class);
         $serviceEndpoints = ServiceEndpoints::cfdi();
         $service = new ServiceWithStorageToken($requestBuilder, $webClient, $storageToken, $serviceEndpoints);
 
@@ -50,8 +50,8 @@ final class ServiceWithStorageTokenTest extends TestCase
         $storageToken = new StorageToken('');
         $storageToken->store($storedToken);
 
-        $requestBuilder = $this->createMock(RequestBuilderInterface::class);
-        $webClient = $this->createMock(WebClientInterface::class);
+        $requestBuilder = $this->createStub(RequestBuilderInterface::class);
+        $webClient = $this->createStub(WebClientInterface::class);
         $serviceEndpoints = ServiceEndpoints::cfdi();
         $service = new ServiceWithStorageToken($requestBuilder, $webClient, $storageToken, $serviceEndpoints);
         $this->assertEquals($storedToken, $service->obtainCurrentToken());

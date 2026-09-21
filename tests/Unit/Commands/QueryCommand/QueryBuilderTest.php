@@ -24,7 +24,7 @@ final class QueryBuilderTest extends TestCase
     /** @param string[] $inputs */
     private function createQueryBuilder(array $inputs, ?ServiceType $serviceType = null): QueryBuilder
     {
-        $input = new ArrayInput($inputs, (new QueryCommand())->getDefinition());
+        $input = new ArrayInput($inputs, new QueryCommand()->getDefinition());
         $serviceType ??= ServiceType::cfdi();
         return new QueryBuilder($input, $serviceType);
     }

@@ -18,11 +18,11 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: '8.5'
           coverage: none
           tools: composer-normalize
         env:
@@ -35,11 +35,11 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: '8.5'
           coverage: none
           tools: cs2pr, phpcs
         env:
@@ -52,11 +52,11 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: '8.5'
           coverage: none
           tools: cs2pr, php-cs-fixer
         env:
@@ -69,25 +69,28 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: '8.5'
           coverage: none
           tools: composer:v2, phpstan
-          extensions: bcmath
         env:
           fail-fast: true
       - name: Get composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
       - name: Cache dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: "${{ steps.composer-cache.outputs.dir }}"
           key: "${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}"
           restore-keys: "${{ runner.os }}-composer-"
+      - name: Install bcmath on nektos/act
+        # shivammathur/setup-php fails to compile bcmath extension
+        if: github.actor == 'nektos/act'
+        run: composer require phpseclib/bcmath_compat --no-install
       - name: Install project dependencies
         run: composer upgrade --no-interaction --no-progress --prefer-dist
       - name: PHPStan
@@ -98,28 +101,31 @@ jobs:
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
-        php-version: ['8.2', '8.3', '8.4']
+        php-version: ['8.4', '8.5']
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
           coverage: none
           tools: composer:v2
-          extensions: bcmath
         env:
           fail-fast: true
       - name: Get composer cache directory
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
       - name: Cache dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: "${{ steps.composer-cache.outputs.dir }}"
           key: "${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}"
           restore-keys: "${{ runner.os }}-composer-"
+      - name: Install bcmath on nektos/act
+        # shivammathur/setup-php fails to compile bcmath extension
+        if: github.actor == 'nektos/act'
+        run: composer require phpseclib/bcmath_compat --no-install
       - name: Install project dependencies
         run: composer upgrade --no-interaction --no-progress --prefer-dist
       - name: Tests (phpunit)

@@ -17,15 +17,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DownloadCommand extends WithFielAbstractCommand
 {
-    public static function getDefaultName(): string
-    {
-        return 'ws:descarga';
-    }
-
     protected function configure(): void
     {
         parent::configure();
 
+        $this->setName('ws:descarga');
         $this->setDescription('Descarga un paquete');
         // TODO: poner una descripción más larga
         $this->setHelp('Descarga un paquete previamente confirmado');

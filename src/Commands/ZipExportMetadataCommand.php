@@ -27,15 +27,11 @@ use Throwable;
 
 class ZipExportMetadataCommand extends Command
 {
-    public static function getDefaultName(): string
-    {
-        return 'zip:metadata';
-    }
-
     protected function configure(): void
     {
         parent::configure();
 
+        $this->setName('zip:metadata');
         $this->setDescription('Exporta un archivo ZIP con Metadata a XSLX');
         // TODO: poner una descripción más larga
         $this->setHelp('Exporta un archivo ZIP con Metadata a XSLX');

@@ -26,7 +26,7 @@ Esta librería contiene un cliente (consumidor) del servicio del SAT de
 
 ## Requerimientos
 
-Esta herramienta usa **PHP versión 8.2** o superior con las extensiones `xml`, `openssl`, `zip`, `curl`, `intl` y `bcmath`.
+Esta herramienta usa **PHP versión 8.4** o superior con las extensiones `xml`, `openssl`, `zip`, `curl`, `intl` y `bcmath`.
 
 ## Instalación
 
@@ -316,7 +316,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [coverage]: https://sonarcloud.io/component_measures?id=phpcfdi_sat-ws-descarga-masiva-cli&metric=Coverage
 [violations]: https://sonarcloud.io/project/issues?id=phpcfdi_sat-ws-descarga-masiva-cli&resolved=false
 [downloads]: https://packagist.org/packages/phpcfdi/sat-ws-descarga-masiva-cli
-[docker]: https://hub.docker.com/repository/docker/phpcfdi/descarga-masiva
+[docker]: https://hub.docker.com/r/phpcfdi/descarga-masiva
 
 [badge-source]: https://img.shields.io/badge/source-phpcfdi/sat--ws--descarga--masiva--cli-blue?logo=github
 [badge-discord]: https://img.shields.io/discord/459860554090283019?logo=discord
