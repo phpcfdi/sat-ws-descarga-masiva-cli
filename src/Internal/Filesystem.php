@@ -65,10 +65,11 @@ final class Filesystem
 
     private function isAbsolute(string $path): bool
     {
-        if (str_starts_with($path, DIRECTORY_SEPARATOR)) {
-            return true;
+        if (PHP_OS_FAMILY === 'Windows') {
+            return (bool) preg_match('#^[A-Za-z]:[/\\\\]#', $path);
         }
-        return preg_match('#^[A-Za-z]:[/\\\\]#', $path) && PHP_OS_FAMILY === 'Windows';
+
+        return str_starts_with($path, DIRECTORY_SEPARATOR);
     }
 
     /** @return non-empty-string */
@@ -77,6 +78,7 @@ final class Filesystem
         if ('' === $path) {
             throw new RuntimeException('Path cannot be empty');
         }
+
         return $path;
     }
 }
