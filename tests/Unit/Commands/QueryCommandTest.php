@@ -25,7 +25,7 @@ class QueryCommandTest extends TestCase
             '--certificado' => $this->filePath('fake-fiel/EKU9003173C9.cer'),
             '--llave' => $this->filePath('fake-fiel/EKU9003173C9.key'),
             '--password' => trim($this->fileContents('fake-fiel/EKU9003173C9-password.txt')),
-            '--token' => (new TemporaryFile(remove: false))->getPath(),
+            '--token' => new TemporaryFile(remove: false)->getPath(),
             '--servicio' => 'cfdi',
             '--desde' => "$year-01-01 00:00:00",
             '--hasta' => "$year-01-31 23:59:59",
@@ -102,7 +102,7 @@ class QueryCommandTest extends TestCase
             '--certificado' => $this->filePath('fake-fiel/EKU9003173C9.cer'),
             '--llave' => $this->filePath('fake-fiel/EKU9003173C9.key'),
             '--password' => trim($this->fileContents('fake-fiel/EKU9003173C9-password.txt')),
-            '--token' => (new TemporaryFile(remove: false))->getPath(),
+            '--token' => new TemporaryFile(remove: false)->getPath(),
             '--uuid' => 'b84835d8-2c55-4194-88a1-79edd961e4e7',
         ];
 

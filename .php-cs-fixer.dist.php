@@ -9,14 +9,14 @@
 
 declare(strict_types=1);
 
-return (new PhpCsFixer\Config())
+return new PhpCsFixer\Config()
     ->setRiskyAllowed(true)
     ->setCacheFile(__DIR__ . '/build/php-cs-fixer.cache')
     ->setRules([
         '@PSR12' => true,
         '@PSR12:risky' => true,
-        '@PHP8x2Migration' => true,
-        '@PHP8x2Migration:risky' => true,
+        '@PHP8x4Migration' => true,
+        '@PHP8x4Migration:risky' => true,
         // symfony
         'array_indentation' => true,
         'class_attributes_separation' => true,
